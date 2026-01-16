@@ -1,7 +1,7 @@
 const Main = () => {
     return (
         <main>
-            <h1>Welcome to the new Professional Development</h1>
+            <h1>Welcome to DCSD Base Image</h1>
         </main>
     );
 };
