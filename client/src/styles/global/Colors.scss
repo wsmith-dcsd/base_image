@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+// Guardian Dashboard colors
+$lt-blue: #7DB7CC;
+$dk-blue: #19608f;
+
+$error: #CE3525;
+$error-dk: #aa3333;
+$error-hover: #cf4635;
+$hover-white: #E0E0E0;
+$light-background: #EFEFEF;
+
+$information: #00AEEF;
+$information-hover: #02BFFF;
+$text: #414042;
+$white: #EDEDED;
+$shadow: #525151;
+$red: #CB321A;
+$green: #4a8319;
+
+$important: #FEBF31;
+$grey0: #EDf0F1;
+$grey1: #D1D3D4;
+$grey2: #A7A9AC;
+$grey3: #808080;
+$grey3a: #707070;
+$grey4: #636161;
+$grey4a: #444343;
+$pale-blue: #C0DEF0;
+$pearl-blue: #0669B3;
+$pearl-blue-hover: #1786DB;
+$lt-pearl-blue: #63AEDE;
+$lt-pearl-blue-hover: #4589B3;
+$icon-blue: #4DD9FF;

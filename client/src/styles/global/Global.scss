@@ -1,0 +1,132 @@
+@use "../../styles/global/Colors";
+@use "../../styles/global/GlobalMixins";
+* {
+    font-family: "Montserrat", sans-serif !important;
+}
+
+// This is used for "bolding" text in chrome
+body {
+    -webkit-font-smoothing: antialiased;
+}
+hr {
+    height: 1px;
+    background: Colors.$grey4a;
+    border: none;
+}
+.dob-label{
+    margin-top: 20px;
+}
+.top-label {
+    color: Colors.$dk-blue;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: none;
+}
+.top-label-secondary-text {
+    color: Colors.$dk-blue;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.disabledColor {
+    background: rgb(227, 227, 227);
+    opacity: .6;
+    color: black;
+    font-weight: 600;
+}
+.gutter-80 {
+    max-width: 1800px;
+    padding: 20px 9px;
+    margin: 0 auto;
+    width: 80%;
+}
+.gutter-90 {
+    max-width: 1800px;
+    padding: 20px 9px;
+    margin: 0 auto;
+    width: 90%;
+}
+.gutter-96 {
+    max-width: 1800px;
+    padding: 20px 9px;
+    margin: 0 auto;
+    width: 96%;
+}
+.grade-gutter-90 {
+    max-width: 1800px;
+    margin: 0 auto;
+    width: 90%;
+    .will-be {
+        text-decoration: underline;
+    }
+    .bold {
+        font-weight: 650;
+    }
+    .yellow-box {
+        @include GlobalMixins.borderRadius(4px);
+        background: Colors.$important;
+        padding: 3px 5px;
+        font-weight: 600;
+    }
+}
+.out-of-bounds-container {
+    display: flex;
+    flex-direction: row;
+    height: 500px;
+    justify-content: center;
+    width: 100%;
+    .out-of-bounds {
+        @include GlobalMixins.borderRadius(10px);
+        @include GlobalMixins.shadow();
+        align-items: center;
+        background: Colors.$grey1;
+        border: 2px solid Colors.$grey2;
+        display: flex;
+        flex-direction: column;
+        height: 50%;
+        padding: 50px;
+        width: 80%;
+    }
+    hr {
+        color: Colors.$grey4a;
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 1080px) {
+    .action-button-reason {
+        font-size: 0.7rem;
+        padding: 0px 8px;
+    }
+}
+// iphone 13 pro 428x926
+@media only screen and (max-width: 926px) {
+    .action-button-reason {
+        font-size: 0.7rem;
+        padding: 0px 8px;
+    }
+}
+// galaxy note 412x883
+@media only screen and (max-width: 926px) {
+    .action-button-reason {
+        font-size: 0.7rem;
+        padding: 0px 8px;
+    }
+}
+// iPad 810x1080
+@media only screen and (max-width: 926px) {
+    .action-button-reason {
+        font-size: 0.7rem;
+        padding: 0px 8px;
+    }
+}
+
+.entire-webpage{
+    zoom: 2;
+    -moz-transform: scale(2);/* Firefox Property */
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(2);/* Opera Property */
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(2);/* Safari Property */
+    -webkit-transform-origin: 0 0;
+    transform: scale(2); /* Standard Property */
+    transform-origin: 0 0;  /* Standard Property */
+}

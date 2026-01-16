@@ -1,0 +1,43 @@
+@use "Colors.scss";
+
+@mixin borderRadius($radius: 5px) {
+    border-radius: $radius;
+}
+
+@mixin dialogueBold() {
+    font-weight: 600;
+    font-size: .9em;
+}
+
+@mixin input() {
+    border-radius: 5px;
+    font-weight: 400;
+    width: 100%;
+}
+
+@mixin infoRounded($radius) {
+    background: Colors.$information;
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+@mixin shadow() {
+    box-shadow: 0.1rem 0.15rem 0.3rem 0 Colors.$shadow;
+}
+@mixin shadowCustom($hor: 1px, $vert: 1px, $blur: 2px, $color: Colors.$shadow) {
+    box-shadow: $hor $vert $blur $color;
+}
+@mixin shadowBottom() {
+    box-shadow: 0 0.1rem 0.15rem 0 Colors.$shadow;
+}
+@mixin standardInputContainer() {
+    font-weight: 500;
+    font-size: .9rem;
+    margin: 10px 0;
+}
+@mixin standardInput() {
+    @include borderRadius(5px);
+    border: none;
+    border: 1px solid Colors.$grey3;
+    padding: 5px;
+}

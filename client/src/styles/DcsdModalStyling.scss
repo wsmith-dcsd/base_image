@@ -1,0 +1,51 @@
+@use "../styles/global/Colors";
+@use "../styles/global/globalMixins";
+
+// // ! Important ! //
+// // All styling that needs to be done for EPR modals (text & layout) is done in this SINGLE file
+.title {
+    color: Colors.$pearl-blue;
+}
+.text-color {
+    color: Colors.$pearl-blue;
+    font-family: 500;
+}
+
+.outer-container {
+    padding: 20px 40px;
+    overflow: scroll;
+
+    .heading {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: Colors.$pearl-blue;
+        margin-bottom: 30px;
+    }
+    .instructions-container {
+        .top-sentence {
+            color: Colors.$pearl-blue;
+            font-weight: 550;
+        }
+        .number-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+
+            .number {
+                @include globalMixins.borderRadius(40px);
+                border: 2px solid Colors.$pearl-blue;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                min-height: 40px;
+                min-width: 40px;
+                color: Colors.$pearl-blue;
+                margin-right: 10px;
+            }
+            .instruction {
+                color: Colors.$pearl-blue;
+            }
+        }
+    }
+}

@@ -1,0 +1,282 @@
+@use "../styles/global/Colors";
+@use "../styles/global/globalMixins";
+
+.button-with-status-container {
+  display: flex
+}
+.status-on-button {
+  position: relative;
+  bottom: 10px;
+  right: 20px
+}
+
+.action-button-reg {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    padding: 0px 20px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+
+.action-button-80 {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 80px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+.action-button-100 {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 100px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-150 {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 150px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-200 {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 200px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-delete {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$red;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 250px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-delete-100 {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$red;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    width: 100px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-small-trashCan {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 20px;
+    transition: 0.1s ease;
+    width: 40px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-cancel {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    border: none;
+    background: Colors.$grey2;
+    height: 30px;
+    transition: 0.1s ease;
+    padding: 0px 20px;
+    margin: 0 10px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$grey3;
+    }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-hide-dropdown {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    border: none;
+    background: Colors.$pearl-blue;
+    background: Colors.$grey2;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    padding: 0px 20px;
+    margin: 0 10px;
+    width: 100%;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .51;
+      cursor: not-allowed;
+    }
+  };
+  .action-button-birthdate-reset {
+    @include globalMixins.borderRadius(3px);
+    @include globalMixins.shadow();
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    height: 30px;
+    transition: 0.1s ease;
+    padding: 0px 20px;
+    width: 200px;
+
+    &:hover {
+      transform: scale(1.015);
+      background: Colors.$pearl-blue-hover;
+    }
+    &:disabled {
+      opacity: .51;
+      cursor: not-allowed;
+    }
+  };
+
+  .action-button-reason {
+    @include globalMixins.borderRadius(3px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    background: Colors.$pearl-blue;
+    color: white;
+    font-size: 0.9rem;
+    height: 30px;
+    padding: 0px 20px;
+    margin: 0 10px;
+    transition: 0.1s ease;
+    white-space: nowrap;
+  };
+  .select-button-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  @media only screen and (max-width: 1080px) {
+    .action-button-reason {
+      font-size: 0.7rem;
+      padding: 0px 8px;
+    }
+  }
