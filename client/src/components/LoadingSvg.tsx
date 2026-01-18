@@ -1,9 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const LoadingSvg = ({ message, fullScreen }) => {
+import { CSSProperties } from "react";
+
+interface LoadingSvgProps {
+    message?: string | null;
+    fullScreen?: boolean;
+}
+
+const LoadingSvg = ({ message = null, fullScreen = false }: LoadingSvgProps): React.JSX.Element => {
     // Style wrapper based on whether we want a full-screen overlay or an inline loader
-    const containerStyle = fullScreen
+    const containerStyle: CSSProperties = fullScreen
         ? {
               position: "fixed",
               top: 0,
@@ -26,13 +33,21 @@ const LoadingSvg = ({ message, fullScreen }) => {
           };
 
     return (
-        <div style={containerStyle} data-testid="loading-spinner">
+        <div
+            style={containerStyle}
+            data-testid="loading-spinner"
+            role="status"
+            aria-live="polite"
+            aria-label={message || "Loading content, please wait"}
+        >
             <svg
                 width="80px"
                 height="80px"
                 viewBox="0 0 100 100"
                 preserveAspectRatio="xMidYMid"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
             >
                 {/* Outer Ring */}
                 <circle

@@ -3,22 +3,22 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const base = require("./webpack.config");
 
 const config = {
+    entry: "./src/index.tsx",
     plugins: [
-        // Extracts CSS into separate files. It creates a CSS file per JS file which contains CSS.
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // all options are optional
             filename: "[name].css",
             chunkFilename: "[id].css"
         })
     ],
-    devtool: "source-map",
+    devtool: "eval-cheap-module-source-map",
     devServer: {
-        allowedHosts: [".dcsdk12.local", ".localhost"],
+        allowedHosts: ["spa.dcsdk12.local"],
         historyApiFallback: true,
         port: 9000,
         host: "spa.dcsdk12.local",
-        https: true
+        server: {
+            type: "https"
+        }
     }
 };
 

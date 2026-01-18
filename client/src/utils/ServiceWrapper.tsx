@@ -19,16 +19,14 @@ const axiosInstance = axios.create({
 
 /**
  * Determines if a request method is idempotent (safe to retry)
- * @param {string} method
- * @returns {boolean}
  */
-const isIdempotentMethod = (method) => {
-    return ["GET", "HEAD", "OPTIONS", "DELETE"].includes(method?.toUpperCase());
+const isIdempotentMethod = (method: string | undefined): boolean => {
+    return ["GET", "HEAD", "OPTIONS", "DELETE"].includes(method?.toUpperCase() || "");
 };
 
 axiosInstance.interceptors.response.use(
     (response) => response,
-    async (error) => {
+    async (error): Promise<unknown> => {
         const config = error.config;
         const { method } = config;
         // Add a custom retry count if it doesn't exist
@@ -61,8 +59,18 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-const pendingRequests = new Map();
-const ServiceWrapper = (options) => axiosInstance(options);
+const pendingRequests = new Map<string, Promise<{ data: unknown }>>();
+interface ServiceOptions {
+    url: string;
+    method: string;
+    data?: unknown;
+    headers?: Record<string, string>;
+    params?: unknown;
+    withCredentials?: boolean;
+    [key: string]: unknown;
+}
+
+const ServiceWrapper = (options: ServiceOptions): Promise<{ data: unknown }> => axiosInstance(options);
 
 /**
  * Do we have a workable status? If not, throw an error with the status text
@@ -72,17 +80,19 @@ const ServiceWrapper = (options) => axiosInstance(options);
  * @return {{}} response
  * @throws {Error} error
  */
-ServiceWrapper.checkStatus = (response) => {
+ServiceWrapper.checkStatus = (response: { status: number }): { status: number } => {
     // Success status is any 200s response
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
-    throw new Error(response);
+    throw new Error(`HTTP ${response.status}`);
 };
 
 // Helper wait function
-ServiceWrapper.wait = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+ServiceWrapper.wait = (ms: number): Promise<void> => {
+    return new Promise<void>((resolve) => {
+        setTimeout(resolve, ms);
+    });
 };
 
 /**
@@ -92,17 +102,18 @@ ServiceWrapper.wait = (ms) => {
  * @param {{}|string|null} error
  * @return {string|*}
  */
-ServiceWrapper.errorHandler = (error) => {
-    if (error.response) {
-        const { status, data } = error.response;
+ServiceWrapper.errorHandler = (error: unknown): string => {
+    if (error && typeof error === "object" && "response" in error) {
+        const errorObj = error as { response: { status: number; data: unknown } };
+        const { status, data } = errorObj.response;
 
         return `${status}: ${typeof data === "string" ? data : JSON.stringify(data)}`;
     }
-    if (error.request) {
+    if (error && typeof error === "object" && "request" in error) {
         return "No response received from server";
     }
-    if (error.message) {
-        return error.message;
+    if (error && typeof error === "object" && "message" in error) {
+        return (error as { message: string }).message;
     }
 
     return "Unknown error";
@@ -115,36 +126,41 @@ ServiceWrapper.errorHandler = (error) => {
  * @param {{}} response
  * @return {[]} headers
  */
-ServiceWrapper.responseHeadersAsArray = (response) => ({ ...response.headers });
+ServiceWrapper.responseHeadersAsArray = (response: unknown): unknown => {
+    if (response && typeof response === "object" && "headers" in response) {
+        return { ...(response as { headers: Record<string, unknown> }).headers };
+    }
+    return {};
+};
 
 /**
  * Perform CRUD operations with an API
- * @name serviceCall
- * @static
- * @param {{}} options
- * @return {*}
  */
-ServiceWrapper.serviceCall = async ({ options }) => {
-    try {
-        const keyData = {
-            url: options.url,
-            method: options.method,
-            data: options.data
-        };
+ServiceWrapper.serviceCall = async ({ options }: { options: ServiceOptions }): Promise<{ data: unknown }> => {
+    const keyData = {
+        url: options.url,
+        method: options.method,
+        data: options.data
+    };
 
-        const key = JSON.stringify(keyData);
-        if (pendingRequests.has(key)) {
-            return pendingRequests.get(key);
-        }
-
-        const promise = ServiceWrapper(options).finally(() => pendingRequests.delete(key));
-
-        pendingRequests.set(key, promise);
-
-        return promise;
-    } catch (error) {
-        throw new Error(ServiceWrapper.errorHandler(error));
+    const key = JSON.stringify(keyData);
+    if (pendingRequests.has(key)) {
+        return pendingRequests.get(key)!;
     }
+
+    const promise = ServiceWrapper(options)
+        .catch((error) => {
+            pendingRequests.delete(key);
+            throw new Error(ServiceWrapper.errorHandler(error));
+        })
+        .finally(() => {
+            pendingRequests.delete(key);
+        });
+
+    pendingRequests.set(key, promise);
+
+    return promise;
 };
 
 export default ServiceWrapper;
+export type { ServiceOptions };

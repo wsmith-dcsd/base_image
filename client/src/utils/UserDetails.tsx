@@ -3,16 +3,21 @@ import { useEffect, useRef } from "react";
 import UserDao from "../dao/UserDao";
 
 import { useGlobalContext } from "../components/contextProvider/ContextProvider";
+
+interface UserDetails {
+    [key: string]: unknown;
+}
+
 /**
  * Custom hook to manage User Details.
  * 1. Checks sessionStorage for existing details (hydration).
  * 2. If missing, and token/username exist, queries the API.
  * 3. Updates GlobalContext and sessionStorage.
  *
- * @name UserDetails
- * @returns {object|null} The user details object or null
+ * @name useUserDetails
+ * @returns {UserDetails|null} The user details object or null
  */
-const UserDetails = () => {
+const useUserDetails = (): UserDetails | null => {
     const { dispatch, state } = useGlobalContext();
     const { token, userDetails, username } = state || {};
 
@@ -26,13 +31,14 @@ const UserDetails = () => {
     useEffect(() => {
         if (!userDetails) {
             try {
-                const storedUser = sessionStorage.getItem("user_details");
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    dispatch({ type: "UserDetails", userDetails: parsedUser });
+                const storedUserDetails = sessionStorage.getItem("user_details");
+                if (storedUserDetails) {
+                    const parsedUserDetails = JSON.parse(storedUserDetails);
+                    dispatch({ type: "UserDetails", userDetails: parsedUserDetails });
                 }
             } catch (error) {
                 // Fail silently or handle error state
+                console.error("Failed to hydrate user details from session storage", error);
                 sessionStorage.removeItem("user_details");
             }
         }
@@ -45,24 +51,24 @@ const UserDetails = () => {
     useEffect(() => {
         const shouldFetch = token && username && !userDetails && !isFetching.current;
 
-        const fetchUserDetails = async () => {
+        const fetchUserDetails = async (): Promise<void> => {
             try {
                 isFetching.current = true;
 
                 const options = {
                     action: "userDetailsRead",
-                    username,
-                    token
+                    username: username!,
+                    token: token!
                 };
 
                 const response = await UserDao(options);
                 if (response && response.data) {
-                    const { payload } = response.data;
+                    const { payload } = response.data as { payload: unknown };
                     sessionStorage.setItem("user_details", JSON.stringify(payload));
                     dispatch({ type: "UserDetails", userDetails: payload });
                 }
             } catch (error) {
-                // VIOLATION AVOIDED: 'no-console'
+                console.error("Error fetching user details:", error);
                 // On error, clear storage to ensure a clean state for retry
                 sessionStorage.removeItem("user_details");
             } finally {
@@ -75,7 +81,9 @@ const UserDetails = () => {
         }
     }, [token, username, userDetails, dispatch]);
 
-    return userDetails || null;
+    return userDetails && typeof userDetails === "object" && Object.keys(userDetails).length > 0
+        ? (userDetails as UserDetails)
+        : null;
 };
 
-export default UserDetails;
+export default useUserDetails;

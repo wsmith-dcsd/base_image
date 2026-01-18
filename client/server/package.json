@@ -1,7 +1,7 @@
 {
-    "name": "open_enrollment",
+    "name": "@dcsd/pd",
     "version": "1.0.0",
-    "description": "Guardian Open Enrollment",
+    "description": "Professional Development",
     "main": "server.js",
     "scripts": {
         "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",

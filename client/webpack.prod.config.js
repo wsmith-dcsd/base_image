@@ -6,6 +6,7 @@ const base = require("./webpack.config");
 
 const config = {
     mode: "production",
+    entry: "./src/index.tsx",
     plugins: [
         // Extracts CSS into separate files
         new MiniCssExtractPlugin({

@@ -6,27 +6,25 @@ import Main from "./components/Main";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 
-const App = () => {
+const App = (): React.JSX.Element => {
+    const isDevelopment = process.env.NODE_ENV !== "production";
+
     return (
         <Routes>
             <Route path="/" element={<PrivateRoute />}>
                 {/* Main Pages */}
                 <Route index element={<Main />} />
-                <Route path="home" exact element={<Main />} />
-                {/* Dev LoadTest */}
-                {process.env.NODE_ENV !== "production" && (
-                    <Route path="loadtest/:userName" element={<LoadTest />} />
-                )}
+                <Route path="home" element={<Main />} />
             </Route>
             {/* Public / Dev Routes */}
-            {process.env.NODE_ENV !== "production" && (
+            {isDevelopment && (
                 <>
                     <Route path="/backdoor" element={<Login />} />
+                    <Route path="/loadtest/:userName" element={<LoadTest />} />
                     <Route path="/loadtest" element={<NotFound />} />
                 </>
             )}
             <Route path="/notFound" element={<NotFound />} />
-            <Route default element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

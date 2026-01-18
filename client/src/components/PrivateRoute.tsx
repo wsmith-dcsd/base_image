@@ -6,26 +6,45 @@ import LoadingSvg from "./LoadingSvg";
 import { Auth, retrieveToken, retrieveTokenDev } from "../utils/auth/Auth";
 import { ContextProvider } from "./contextProvider/ContextProvider";
 
-const PrivateRoute = () => {
-    // Note: 'tokenObject' contains { token, username, expiry, ... }
-    const [tokenObject, setTokenObject] = useState(null);
+interface TokenObject {
+    token: string;
+    username: string;
+    expiry: number;
+    [key: string]: unknown;
+}
+
+const PrivateRoute = (): React.JSX.Element => {
+    const [tokenObject, setTokenObject] = useState<TokenObject | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let isMounted = true;
 
-        const handleToken = async () => {
+        const handleToken = async (): Promise<void> => {
             try {
                 let fetchedToken = null;
                 const isDev = process.env.NODE_ENV !== "production";
-                const devUser = "public-user"; // Move hardcoded string here or to .env
 
-                if (isDev && devUser) {
-                    // Development Mode with specific user
-                    fetchedToken = await retrieveTokenDev(0, devUser);
-                } else if (isDev && sessionStorage.getItem("devLogin") === "devLogin") {
-                    // Development Mode with Session Override
-                    fetchedToken = await retrieveTokenDev(0, null);
+                if (isDev && sessionStorage.getItem("devLogin") === "devLogin") {
+                    // Development Mode with Session Override - get username from sessionStorage
+                    const devUser = sessionStorage.getItem("uname");
+                    if (devUser) {
+                        fetchedToken = await retrieveTokenDev(0, devUser);
+                    } else {
+                        // No username in session, redirect to login
+                        window.location.href = "/backdoor";
+                        return;
+                    }
+                } else if (isDev) {
+                    // Development Mode with default user
+                    const devUser = process.env.REACT_APP_DEV_USER;
+                    if (devUser) {
+                        fetchedToken = await retrieveTokenDev(0, devUser);
+                    } else {
+                        // No default user configured, redirect to login
+                        window.location.href = "/backdoor";
+                        return;
+                    }
                 } else {
                     // Production Mode
                     fetchedToken = await retrieveToken();
@@ -35,10 +54,10 @@ const PrivateRoute = () => {
                     setTokenObject(fetchedToken);
                     setIsLoading(false);
                 }
-            } catch (error) {
-                // VIOLATION AVOIDED: 'no-console'
+            } catch {
+                console.error("Error fetching token");
                 // Handle error (e.g., clear session) if needed
-                setToken(null);
+                setTokenObject(null);
             } finally {
                 if (isMounted) {
                     setIsLoading(false);
@@ -48,7 +67,7 @@ const PrivateRoute = () => {
 
         handleToken();
 
-        return () => {
+        return (): void => {
             isMounted = false;
         };
     }, []);

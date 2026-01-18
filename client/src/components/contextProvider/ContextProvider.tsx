@@ -1,8 +1,25 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
-import PropTypes from "prop-types";
 
-// 1. Define the default state shape
-const initialState = {
+interface GlobalAction {
+    type: string;
+    allLocationDtos?: unknown[];
+    locKey?: unknown;
+    schoolYearDto?: unknown;
+    token?: string;
+    userDetails?: unknown;
+    username?: string;
+}
+
+interface GlobalState {
+    allLocationDtos: unknown[];
+    locKey: unknown;
+    schoolYearDto: unknown;
+    token: string | null;
+    userDetails: unknown;
+    username: string | null;
+}
+
+const initialState: GlobalState = {
     allLocationDtos: [],
     locKey: null,
     schoolYearDto: null,
@@ -13,17 +30,13 @@ const initialState = {
 
 /**
  * Reducer function to handle state updates.
- *
- * @param {object} state - Current state
- * @param {object} action - Action to perform
- * @returns {object} New state
  */
-const reducer = (state, action) => {
+const reducer = (state: GlobalState, action: GlobalAction): GlobalState => {
     switch (action.type) {
         case "AllLocationDtos":
             return {
                 ...state,
-                allLocationDtos: action.allLocationDtos
+                allLocationDtos: action.allLocationDtos || []
             };
         case "LocKey":
             return {
@@ -38,7 +51,7 @@ const reducer = (state, action) => {
         case "Token":
             return {
                 ...state,
-                token: action.token
+                token: action.token || null
             };
         case "UserDetails":
             return {
@@ -48,7 +61,7 @@ const reducer = (state, action) => {
         case "Username":
             return {
                 ...state,
-                username: action.username
+                username: action.username || null
             };
         case "Reset":
             return initialState;
@@ -58,7 +71,12 @@ const reducer = (state, action) => {
 };
 
 // Create Context
-const GlobalContext = createContext(initialState);
+interface GlobalContextType {
+    state: GlobalState;
+    dispatch: React.Dispatch<GlobalAction>;
+}
+
+const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 /**
  * Context Provider Component.
@@ -68,12 +86,20 @@ const GlobalContext = createContext(initialState);
  * @param {string} initialToken - Token passed from PrivateRoute to hydrate state immediately
  * @param {string} initialUsername - Username passed from PrivateRoute to hydrate state immediately
  */
-const ContextProvider = ({ children, initialToken, initialUsername }) => {
+const ContextProvider = ({
+    children,
+    initialToken,
+    initialUsername
+}: {
+    children: React.ReactNode;
+    initialToken?: string | null;
+    initialUsername?: string | null;
+}): React.JSX.Element => {
     /**
      * Hydrate state immediately with BOTH token and username.
      * This ensures hooks like UserDetails fire on the very first render.
      */
-    const init = (defaultState) => {
+    const init = (defaultState: GlobalState): GlobalState => {
         if (initialToken || initialUsername) {
             return {
                 ...defaultState,
@@ -86,23 +112,11 @@ const ContextProvider = ({ children, initialToken, initialUsername }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState, init);
 
-    const contextValue = useMemo(() => {
+    const contextValue = useMemo((): GlobalContextType => {
         return { state, dispatch };
     }, [state]);
 
     return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
-};
-
-ContextProvider.propTypes = {
-    children: PropTypes.node,
-    initialToken: PropTypes.string,
-    initialUsername: PropTypes.string // Add this new prop type
-};
-
-ContextProvider.defaultProps = {
-    children: null,
-    initialToken: null,
-    initialUsername: null
 };
 
 /**
@@ -111,7 +125,7 @@ ContextProvider.defaultProps = {
  *
  * @returns {object} { state, dispatch }
  */
-const useGlobalContext = () => {
+const useGlobalContext = (): GlobalContextType => {
     const context = useContext(GlobalContext);
 
     // Safety Check: Ensure this is used within the provider

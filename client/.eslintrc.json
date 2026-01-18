@@ -25,7 +25,7 @@
     },
     "plugins": ["import", "react", "react-hooks", "prettier"],
     "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "react/sort-comp": [
             2,
@@ -50,7 +50,7 @@
                 "peerDependencies": true
             }
         ],
-        "no-console": "error",
+        "no-console": ["error", { "allow": ["error"] }],
         "no-multiple-empty-lines": [
             "error",
             {
@@ -79,5 +79,25 @@
             "onlyFilesWithFlowAnnotation": true
         },
         "eslint.workingDirectories": ["client"]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx"],
+            "parser": "@typescript-eslint/parser",
+            "plugins": ["@typescript-eslint"],
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:react/recommended",
+                "plugin:prettier/recommended"
+            ],
+            "rules": {
+                "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+                "@typescript-eslint/explicit-function-return-type": "warn",
+                "@typescript-eslint/explicit-module-boundary-types": "warn",
+                "@typescript-eslint/no-explicit-any": "warn",
+                "react/react-in-jsx-scope": "off"
+            }
+        }
+    ]
 }

@@ -5,11 +5,23 @@ import DcsdDialog from "./DcsdDialog";
  * @todo Need to switch out this for a different bootstrap dialog
  * @returns a simple looking dialog to tell the user they dont have access to this page
  */
-const NotFound = () => {
+const NotFound = (): React.JSX.Element => {
     return (
         <DcsdDialog
             actions={
-                <a href="https://www.dcsdk12.org/">
+                <a
+                    href="https://employee.dcsdk12.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(): void => {
+                        // Fallback if the external link fails
+                        setTimeout((): void => {
+                            if (document.visibilityState === "visible") {
+                                window.location.href = "/";
+                            }
+                        }, 1000);
+                    }}
+                >
                     <ActionButton
                         ariaLabel="Back to DCSD Home"
                         className="action-button-reg"
