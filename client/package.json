@@ -1,7 +1,7 @@
 {
-  "name": "@dcsd/pd",
+  "name": "@wsmith-dcsd/base_image",
   "version": "1.0.0",
-  "description": "Professional Development",
+  "description": "TypeScript Base Image",
   "main": "src/index.tsx",
   "overrides": {
     "glob": "^7.2.3",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wsmith-dcsd/pd.git"
+    "url": "git+https://github.com/wsmith-dcsd/base_image.git"
   },
   "author": "DCSD",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wsmith-dcsd/pd/issues"
+    "url": "https://github.com/wsmith-dcsd/base_image/issues"
   },
-  "homepage": "https://github.com/wsmith-dcsd/pd#readme",
+  "homepage": "https://github.com/wsmith-dcsd/base_image#readme",
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-runtime": "^7.24.3",

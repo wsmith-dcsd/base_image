@@ -5,8 +5,8 @@ const Main = (): React.JSX.Element => {
                 Skip to main content
             </a>
             <main id="main-content" tabIndex={-1}>
-                <h1>Welcome to the DCSD Professional Development Page</h1>
-                <p>Access professional development resources and tools.</p>
+                <h1>Welcome to the DCSD TypeScript Base Image</h1>
+                <p>Use this code to build upon.</p>
             </main>
         </>
     );
